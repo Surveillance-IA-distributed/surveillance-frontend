@@ -1,3 +1,20 @@
-<div class="bg-gray-700">
-  <router-outlet></router-outlet>
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  @if(isSideBarOpen){
+  <app-sidebar></app-sidebar>
+  }
+
+  <!-- Contenido Principal + Topbar -->
+  <div
+    class="flex-1 p-6 overflow-auto bg-[#E5E7EB] font-display relative transition-all duration-300 ease-in-out"
+    [class.ml-64]="isSideBarOpen"
+  >
+    <!-- Topbar -->
+    <app-topbar (isSideBarOpenChange)="toggleSidebar($event)"></app-topbar>
+
+    <!-- Contenido Principal (Dinámico) -->
+    <div class="pt-16">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>
