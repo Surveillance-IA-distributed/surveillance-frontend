@@ -1,0 +1,73 @@
+<div class="bg-white shadow-md rounded-md p-6 mb-6">
+  <h2 class="text-2xl font-semibold text-gray-800">Escanear video</h2>
+</div>
+
+<div class="bg-white shadow-md rounded-md p-6 mb-6">
+  <h3 class="text-xl font-semibold text-gray-800">
+    Videos que se van a escanear
+  </h3>
+
+  <div class="space-y-4">
+    @if(isLoadingGetVideos){
+    <p class="text-sm text-gray-600">No hay videos subidos.</p>
+    } @else {
+    <ul>
+      @for(video of uploadedVideos.videos; track video){
+      <li class="mb-2">
+        <a target="_blank" class="text-blue-500">
+          {{ video }}
+        </a>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+</div>
+
+<div class="bg-white shadow-md rounded-md p-6 mb-6">
+  <h3 class="text-xl font-semibold text-gray-800 mb-4">Escanear videos</h3>
+
+  <button
+    (click)="scanVideo()"
+    [disabled]="!uploadedVideos.videos.length"
+    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50"
+  >
+    Escanear video
+  </button>
+
+  @if (scanVideoResponse.results.length > 0 ||
+  scannedVideoResponse.videos.length > 0) {
+  <div class="mt-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Columna de Logs -->
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <h4
+          class="bg-blue-100 text-center text-lg font-semibold text-blue-800 py-2"
+        >
+          Logs del escaneo
+        </h4>
+        <ul class="divide-y divide-gray-200 text-sm text-gray-700">
+          @for (result of scanVideoResponse.results; track result) {
+          <li class="px-4 py-2">{{ result }}</li>
+          }
+        </ul>
+      </div>
+
+      <!-- Columna de Videos escaneados -->
+      <div class="border border-gray-200 rounded-lg overflow-hidden">
+        <h4
+          class="bg-green-100 text-center text-lg font-semibold text-green-800 py-2"
+        >
+          Videos escaneados
+        </h4>
+        <ul class="divide-y divide-gray-200 text-sm text-gray-700">
+          @for (video of scannedVideoResponse.videos; track video) {
+          <li class="px-4 py-2">{{ video }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  }
+</div>
