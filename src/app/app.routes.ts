@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { UploadVideoComponent } from './upload-video/upload-video.component';
 import { ScanVideoComponent } from './scan-video/scan-video.component';
 import { CreateRequestComponent } from './create-request/create-request.component';
+import { CreateAlertComponent } from './create-alert/create-alert.component';
 
 export const routes: Routes = [
     {
@@ -25,4 +26,8 @@ export const routes: Routes = [
         path: 'create-request',
         component: CreateRequestComponent
     },
+    {
+        path: 'create-alert',
+        component: CreateAlertComponent
+    }
 ];
