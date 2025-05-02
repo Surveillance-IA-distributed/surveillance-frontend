@@ -16,7 +16,7 @@ import { NotificationsComponent } from './share/components/notifications/notific
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
   isSideBarOpen = true;
   lastAlert: any = null;
   
@@ -24,15 +24,15 @@ export class AppComponent implements OnInit {
     private alertSocketService: AlertSocketService
   ) {}
   
-  ngOnInit() {
-    console.log('PADRE: ngOnInit()');
-    // this.alertSocketService.onAlert().subscribe((alert) => {
-    //   this.lastAlert = alert;
+  // ngOnInit() {
+  //   console.log('PADRE: ngOnInit()');
+  //   this.alertSocketService.onAlert().subscribe((alert) => {
+  //     this.lastAlert = alert;
       
-    //   // Ocultar la notificación después de 5 segundos
-    //   setTimeout(() => this.lastAlert = null, 5000);
-    // });
-  }
+  //     // Ocultar la notificación después de 5 segundos
+  //     setTimeout(() => this.lastAlert = null, 5000);
+  //   });
+  // }
   
   toggleSidebar( isOpen: boolean) {
     console.log('PADRE: toggleSidebar() ->', isOpen);

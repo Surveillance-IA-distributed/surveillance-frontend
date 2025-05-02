@@ -9,19 +9,19 @@ import { Observable } from 'rxjs';
 })
 export class AlertSocketService {
 
-  private socket: Socket;
-  private apiAurl = environment.apiUrl;
+  // private socket: Socket;
+  // private apiAurl = environment.apiUrl;
 
-  constructor() {
-    this.socket = io(this.apiAurl)
-  }
+  // constructor() {
+  //   this.socket = io(this.apiAurl)
+  // }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onAlert(): Observable<any> {
-    return new Observable((subscriber) => {
-      this.socket.on('alert-detected', (data) => {
-        subscriber.next(data);
-      });
-    });
-  }
+  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // onAlert(): Observable<any> {
+  //   return new Observable((subscriber) => {
+  //     this.socket.on('alert-detected', (data) => {
+  //       subscriber.next(data);
+  //     });
+  //   });
+  // }
 }
