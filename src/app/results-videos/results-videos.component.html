@@ -1,0 +1,158 @@
+<!-- Header -->
+<div class="bg-white shadow-md rounded-md p-6 mb-6">
+  <h1 class="text-3xl font-bold text-gray-800 mb-2">
+    Información de todos los videos
+  </h1>
+  <p class="text-gray-600 text-lg">
+    Aquí podrás ver todos los videos que has subido a la plataforma y sus
+    características detectadas por la IA.
+  </p>
+</div>
+
+<!-- Botones para cambiar vista -->
+<div class="flex justify-center gap-4 mb-6">
+  <button
+    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition"
+    (click)="changeView('features')"
+  >
+    Features
+  </button>
+  <button
+    class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded transition"
+    (click)="changeView('objects')"
+  >
+    Objects
+  </button>
+  <button
+    class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded transition"
+    (click)="changeView('escenarios')"
+  >
+    Escenarios
+  </button>
+</div>
+
+<!-- Contenido dinámico -->
+<div class="bg-white shadow-md rounded-md p-6 transition-all duration-300">
+  <!-- Vista de features -->
+  @if(currentView === 'features') {
+  <ng-container>
+    <h2 class="text-xl font-bold text-blue-600 mb-4">
+      Características detectadas
+    </h2>
+    <table class="w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-blue-100 text-blue-800">
+          <th class="px-4 py-2">Nombre del video</th>
+          <th class="px-4 py-2">Segundos</th>
+          <th class="px-4 py-2">Nombre del objeto</th>
+          <th class="px-4 py-2">Descripción</th>
+          <th class="px-4 py-2">Colores</th>
+          <th class="px-4 py-2">Tamaño</th>
+          <th class="px-4 py-2">Orientación</th>
+          <th class="px-4 py-2">Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(feature of dataFeatures; track feature){
+        <tr class="border-b hover:bg-blue-50">
+          <td class="px-4 py-2 text-center">{{ feature.video_name }}</td>
+          <td class="px-4 py-2 text-center">{{ feature.sec }}</td>
+          <td class="px-4 py-2 text-center">{{ feature.object_name }}</td>
+          <td class="px-4 py-2 text-center">{{ feature.description }}</td>
+          <td class="px-4 py-2 text-center">
+            {{ feature.color1 }} | {{ feature.color2 }}
+          </td>
+          <td class="px-4 py-2 text-center">{{ feature.size }}</td>
+          <td class="px-4 py-2 text-center">{{ feature.orientation }}</td>
+          <td class="px-4 py-2 text-center">{{ feature.type }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </ng-container>
+  }
+
+  <!-- Vista de objetos -->
+  @else if (currentView === 'objects') {
+  <ng-container>
+    <h2 class="text-xl font-bold text-green-600 mb-4">Objetos detectados</h2>
+    <table class="w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-green-100 text-green-800">
+          <th class="px-4 py-2">Nombre del objeto</th>
+          <th class="px-4 py-2">Nombre del video</th>
+          <th class="px-4 py-2">Coordenadas</th>
+          <th class="px-4 py-2">Color</th>
+          <th class="px-4 py-2">Proximidad</th>
+          <th class="px-4 py-2">Segundos</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(object of dataObjects; track object){
+        <tr class="border-b hover:bg-blue-50">
+          <td class="px-4 py-2 text-center">{{ object.object_name }}</td>
+          <td class="px-4 py-2 text-center">{{ object.video_name }}</td>
+          <td class="px-4 py-2 text-center">
+            {{ object.x1 }} | {{ object.y1 }} | {{ object.x2 }} |
+            {{ object.y2 }}
+          </td>
+          <td class="px-4 py-2 text-center">{{ object.color }}</td>
+          <td class="px-4 py-2 text-center">{{ object.proximity }}</td>
+          <td class="px-4 py-2 text-center">{{ object.sec }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </ng-container>
+  }
+
+  <!-- Vista de escenarios -->
+  @else if (currentView === 'escenarios') {
+  <ng-container>
+    <h2 class="text-xl font-bold text-purple-600 mb-4">
+      Escenarios detectados
+    </h2>
+    <table class="w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-purple-100 text-purple-800">
+          <th class="px-4 py-2">Nombre del video</th>
+          <th class="px-4 py-2">Segundos</th>
+          <th class="px-4 py-2">Nombre del objeto</th>
+          <th class="px-4 py-2">Descripción</th>
+          <th class="px-4 py-2">Colores</th>
+          <th class="px-4 py-2">Tamaño</th>
+          <th class="px-4 py-2">Orientación</th>
+          <th class="px-4 py-2">Tipo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(escenario of dataScenaries; track escenario){
+        <tr class="border-b hover:bg-blue-50">
+          <td class="px-4 py-2 text-center">{{ escenario.video_name }}</td>
+          <td class="px-4 py-2 text-center">
+            {{ escenario.environment_type }}
+          </td>
+          <td class="px-4 py-2 text-center">{{ escenario.description }}</td>
+          <td class="px-4 py-2 text-center">
+            {{ escenario.weather }}
+          </td>
+          <td class="px-4 py-2 text-center">
+            {{ escenario.time_of_day }}
+          </td>
+          <td class="px-4 py-2 text-center">
+            {{ escenario.terrain }}
+          </td>
+          <td class="px-4 py-2 text-center">
+            {{ escenario.crowd_level }}
+          </td>
+          <td class="px-4 py-2 text-center">
+            {{ escenario.lighting }}
+          </td>
+        </tr>
+
+        }
+      </tbody>
+    </table>
+  </ng-container>
+  }
+</div>
