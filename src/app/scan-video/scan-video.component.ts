@@ -13,7 +13,9 @@ import { ScannedVideosService } from '../share/services/scanned-videos.service';
 })
 export class ScanVideoComponent {
 
-  uploadedVideos!: VideosListReponse;
+  uploadedVideos: VideosListReponse = {
+    videos: []
+  }
   isLoadingGetVideos = true;
 
   scanVideoResponse: ScanVideoResponse = {
@@ -21,7 +23,9 @@ export class ScanVideoComponent {
     results: []
   };
 
-  scannedVideoResponse!: VideosListReponse;
+  scannedVideoResponse: VideosListReponse = {
+    videos: []
+  };
 
   constructor(
     private readonly uploadedVideosService: UploadedVideosService,
@@ -61,6 +65,11 @@ export class ScanVideoComponent {
   }
 
   scanVideo(){
+    if(this.uploadedVideos.videos.length === 0){
+      console.error('No videos to scan');
+      alert('No hay videos para escanear');
+      return;
+    }
     this.scanVideoService.scanVideo().subscribe({
       next: (response) => {
         this.scanVideoResponse = response;
