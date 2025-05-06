@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.example';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ScanVideoResponse } from '../interfaces/scanVideoResponse.interface';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
