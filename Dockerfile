@@ -11,7 +11,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # 🔧 Construcción SSR (no build común)
-RUN npm run build
+RUN npm run build -- --configuration=production
 
 # Etapa 2: Imagen final para producción SSR
 FROM node:18-alpine
