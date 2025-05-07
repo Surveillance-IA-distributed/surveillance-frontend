@@ -5,6 +5,9 @@ import { ScannedVideosService } from '../share/services/scanned-videos.service';
 import { CommonModule } from '@angular/common';
 import { ScanResultResponse } from './interfaces/scanResultResponse.interface';
 import { FormsModule } from '@angular/forms';
+import { RequestBodySend } from './interfaces/requestBodySend.interface';
+import { MakeQueryService } from './services/make-query.service';
+import { MakeQueryResponse } from './interfaces/makeQueryResponse.interface';
 
 @Component({
   selector: 'app-create-request',
@@ -27,15 +30,29 @@ export class CreateRequestComponent {
   objectNames: string[] = [];
   colors: string[] = [];
   proximities: string[] = [];
-  selectedQueryType = 1;
+  
+  selectedQueryType = "1";
   selectedObject: string | null = null;
   selectedColor: string | null = null;
   selectedProximity: string | null = null;
   selectedEnvironmentType: string | null = null;
 
+  requestBody: RequestBodySend = {
+    type: "1",
+    video_name: '',
+    environment_type: null,
+    object_name: null,
+    color: null,
+    proximity: null
+  };
+
+  // Respuesta --> MAke query
+  responseMakeQuery: MakeQueryResponse[] = [];
+
   constructor(
     private readonly scannedVideosService: ScannedVideosService,
-    private readonly resultScanService: ResultScanService
+    private readonly resultScanService: ResultScanService,
+    private readonly makeQuerySerivice: MakeQueryService
   ) {
     this.getScannedVideos();
   }
@@ -86,6 +103,11 @@ export class CreateRequestComponent {
         this.objectNames = [...objectsSet];
         this.colors = [...colorsSet];
         this.proximities = [...proximitySet];
+
+        this.requestBody.type = this.selectedQueryType;
+        this.requestBody.video_name = videoId;
+        this.requestBody.environment_type = this.selectedEnvironmentType;
+
       },
       error: (error) => {
         console.error('Error fetching scan results:', error);
@@ -121,16 +143,70 @@ export class CreateRequestComponent {
     return grouped;
   }
   
-  createRequest(){
-    const body = {
-      type: this.selectedQueryType,
-      video_name: this.videoSelected || null,
-      environment_type: this.selectedQueryType === 1 ? this.selectedEnvironmentType : null,
-      object_name: this.selectedObject ?? null,
-      color: this.selectedColor ?? null,
-      proximity: this.selectedProximity ?? null,
-    };
-  
-    console.log('Consulta generada:', body);
+  onEnvironmentTypeChange() {
+    console.log('Selected environment type:', this.selectedEnvironmentType);
+    this.selectedEnvironmentType = this.environmentType;
   }
+
+  onObjectChange() {
+    console.log('Selected object:', this.selectedObject);
+    // this.requestBody.object_name = this.selectedObject;
+  }
+
+  onColorChange() {
+    console.log('Selected color:', this.selectedColor);
+    // this.requestBody.color = this.selectedColor;
+  }
+
+  onProximityChange() {
+    console.log('Selected proximity:', this.selectedProximity);
+    // this.requestBody.proximity = this.selectedProximity;
+  }
+
+  onQueryTypeChange() {
+    this.selectedEnvironmentType = null;
+    this.selectedObject = null;
+    this.selectedColor = null;
+    this.selectedProximity = null;
+  }
+
+  createRequest() {
+    this.requestBody.object_name = this.selectedObject;
+    this.requestBody.color = this.selectedColor;
+    this.requestBody.proximity = this.selectedProximity;
+    this.requestBody.environment_type = this.selectedEnvironmentType;
+    this.requestBody.video_name = this.videoSelected ?? '';
+    this.requestBody.type = this.selectedQueryType;
+  
+    // Reglas... 
+    // Tipo 1: Debe estar el tipo de entorno
+    if (this.selectedQueryType === '1' && !this.selectedEnvironmentType) {
+      alert('Error: El tipo de entorno es obligatorio para el tipo de consulta 1.');
+      return;
+    }
+    // Tipo 2: Debe estar al menos el objeto
+    if (this.selectedQueryType === '2' && !this.selectedObject) {
+      alert('Error: Al menos un objeto es obligatorio para el tipo de consulta 2.');
+      return;
+    }
+    // Tipo 3: Debe estar el objeto
+    if (this.selectedQueryType === '3' && !this.selectedObject) {
+      alert('Error: Al menos un objeto es obligatorio para el tipo de consulta 3.');
+      return;
+    }
+
+    console.log('📦 Enviando consulta:', this.requestBody);
+    this.makeQuerySerivice.makeQuery(this.requestBody).subscribe({
+      next: (response) => {
+        console.log('Consulta enviada:', response);
+        alert('Consulta enviada correctamente.');
+        this.responseMakeQuery = response;
+      },
+      error: (error) => {
+        console.error('Error al enviar la consulta:', error);
+        alert('Error al enviar la consulta.');
+      }
+    });
+  }
+  
 }
