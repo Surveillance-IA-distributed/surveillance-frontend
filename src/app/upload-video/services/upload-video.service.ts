@@ -17,6 +17,6 @@ export class UploadVideoService {
     const formData = new FormData();
     formData.append('video', videoFile);
 
-    return this.http.post<UploadVideoResponse>(`${this.apiUrl}/video/upload`, formData);
+    return this.http.post<UploadVideoResponse>(`${this.apiUrl}/api/video-data/upload`, formData);
   }
 }

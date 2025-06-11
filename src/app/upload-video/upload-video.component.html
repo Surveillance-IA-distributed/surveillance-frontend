@@ -44,15 +44,45 @@
     @if(isLoading){
     <p class="text-sm text-gray-600">No hay videos subidos.</p>
     } @else {
-    <ul>
-      @for(video of uploadedVideos.videos; track video){
-      <li class="mb-2">
-        <a target="_blank" class="text-blue-500">
-          {{ video }}
-        </a>
-      </li>
-      }
-    </ul>
+    <table class="min-w-full table-auto border border-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            ID
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Nombre
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Nombre original
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Ruta
+          </th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">
+            Creado
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(video of uploadedVideos; track video.id){
+
+        <tr class="border-t border-gray-200">
+          <td class="px-4 py-2 text-sm text-gray-800">{{ video.id }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ video.nombre }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ video.originalName }}
+          </td>
+          <td class="px-4 py-2 text-sm text-blue-500 underline">
+            <a [href]="video.path" target="_blank">{{ video.path }}</a>
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ video.createdAt | date : "short" }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
     }
   </div>
 </div>

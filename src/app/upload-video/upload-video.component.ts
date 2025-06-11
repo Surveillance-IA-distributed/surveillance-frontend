@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { UploadVideoService } from './services/upload-video.service';
 import { UploadedVideosService } from '../share/services/uploaded-videos.service';
-import { VideosListReponse } from '../share/interfaces/uploadedVideosResponse.interface';
+import { VideoListResponse } from '../share/interfaces/uploadedVideosResponse.interface';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-upload-video',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './upload-video.component.html',
   styleUrl: './upload-video.component.css'
 })
@@ -13,7 +14,7 @@ export class UploadVideoComponent {
   videoFile: File | null = null;
   uploadStatus = '';
 
-  uploadedVideos!: VideosListReponse;
+  uploadedVideos!: VideoListResponse[];
   isLoading = true;
 
   constructor(
